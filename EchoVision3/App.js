@@ -7,7 +7,7 @@ export default function App() {
 
   async function playSound() {
     console.log('Loading Sound');
-    const { sound } = await Audio.Sound.createAsync(require('./assets/test1.mp3')
+    const { sound } = await Audio.Sound.createAsync( require('./assets/Hello.mp3')
     );
     setSound(sound);
 
@@ -18,25 +18,18 @@ export default function App() {
   React.useEffect(() => {
     return sound
       ? () => {
-        console.log('Unloading Sound');
-        sound.unloadAsync();
-      }
+          console.log('Unloading Sound');
+          sound.unloadAsync();
+        }
       : undefined;
   }, [sound]);
 
   return (
     <View style={styles.container}>
-      <Text lala/>
-      <Text lala/>
-      <Text lala/>
-      <Text lala/>
-      <Text lala/>
+
       <Button title="Play Sound" onPress={playSound} />
     </View>
   );
-  // return  <Button title="Play Sound" onPress={playSound} />
-
-  // return playSound;
 }
 
-const styles = StyleSheet.create({ container: { justifyContent: 'center' } });
+const styles = StyleSheet.create({}); 
