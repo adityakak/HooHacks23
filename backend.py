@@ -62,8 +62,8 @@ def predict():
 
     output = prediction.cpu().numpy()
 
+    # TODO: stub
     result = 5
-
     return {'result': result}
 
 if __name__ == '__main__':
