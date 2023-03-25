@@ -1,13 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-// import SoundPlayer from 'react-native-sound-player'
 import { Audio } from 'expo-av';
-
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>ASDFCJASDLFKCJALDKSJFCASDF</Text>
+      <Text>Open up App.js to start working on your app!</Text>
       <StatusBar style="auto" />
     </View>
   );
