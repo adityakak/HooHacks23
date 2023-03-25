@@ -47,6 +47,10 @@ with torch.no_grad():
 print(time.perf_counter() - start)
 
 output = prediction.cpu().numpy()
+output *= (255/output.max())
+output_img = cv2.merge((output, output, output))
+cv2.imwrite("output.png", output_img)
 
-plt.imshow(output)
-plt.show()
+# print(output)
+# plt.imshow(output)
+# plt.show()
