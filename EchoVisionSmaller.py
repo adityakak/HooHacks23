@@ -8,9 +8,15 @@ model_type = "MiDaS_small"  # MiDaS v2.1 - Small   (lowest accuracy, highest inf
 
 midas = torch.hub.load("intel-isl/MiDaS", model_type, trust_repo=True)
 
-device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+#device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+device = torch.device("cpu")
 midas.to(device)
 midas.eval()
+
+cuda_id = torch.cuda.current_device()
+print(torch.cuda.current_device())
+        
+print(torch.cuda.get_device_name(cuda_id))
 
 midas_transforms = torch.hub.load("intel-isl/MiDaS", "transforms")
 
@@ -43,4 +49,4 @@ print(time.perf_counter() - start)
 output = prediction.cpu().numpy()
 
 plt.imshow(output)
-
+plt.show()
