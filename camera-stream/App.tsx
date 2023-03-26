@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, ImageBackground, Image } from 'react-native'
 import { Camera } from 'expo-camera'
 import { Audio } from 'expo-av';
+import { LogBox } from 'react-native';
 
 let camera: Camera
 // var photoNumber: any
@@ -31,6 +32,8 @@ export default function App() {
       Alert.alert('Access denied')
     }
   }
+
+  LogBox.ignoreLogs(['Warning: ...']);
 
   async function playSound() { 
       
@@ -144,6 +147,8 @@ export default function App() {
     setCapturedImage(photo)
     // console.log("Photo details: ", photo.base64)
     setWaitingResponse(true)
+
+    
 
     await fetch('http://172.25.157.53:5000/upload', {
       method: 'POST',
