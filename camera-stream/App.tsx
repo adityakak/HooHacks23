@@ -36,7 +36,7 @@ export default function App() {
     setCapturedImage(photo)
     console.log("Photo details: ", photo.base64)
 
-    fetch('http://172.25.185.145:5000/upload', {
+    fetch('http://172.23.22.156:5000/upload', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
