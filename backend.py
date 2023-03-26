@@ -1,8 +1,12 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import torch
 import matplotlib.pyplot as plt
 import cv2
 import time
+import base64
+from PIL import Image
+import io
+import numpy as np
 
 app = Flask(__name__)
 
@@ -30,19 +34,40 @@ if model_type == "DPT_Large" or model_type == "DPT_Hybrid":
 else:
     transform = midas_transforms.small_transform
 
+@app.route('/hello')
+def hello():
+    return "hello world!"
+
+@app.route('/bob')
+def bob():
+    return "bob"
+
 
 # Define a route for the API
-@app.route('/', methods=['POST'])
-def predict():
+@app.route('/upload', methods=['POST'])
+def upload():
+    if(request.method == "POST"):
+        print(request.get_data())
+        data = request.json["testNumber"]
+        print(data)
+        ans = int(data) + 1
+        print(ans)
+        img_data = request.json["photo"].split(',')[1]
+        decoded_img_data = base64.b64decode()
+        prev_img = Image.open(io.BytesIO(decoded_img_data))
+        img = np.array(prev_img.convert('RGB'))
+
+
+        return jsonify({'result' : ans})
+
+
     # Get the request data
-    data = request.json["image"]
+
 
     # Make a prediction using the model
 
     # Return the prediction as a JSON response
 
-    img = cv2.imread(data)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
     input_batch = transform(img).to(device)
 
@@ -62,9 +87,9 @@ def predict():
 
     output = prediction.cpu().numpy()
 
-    # TODO: stub
-    result = 5
-    return {'result': result}
+    print(output.shape)
+
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host = "0.0.0.0")
