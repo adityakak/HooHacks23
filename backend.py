@@ -30,6 +30,36 @@ if model_type == "DPT_Large" or model_type == "DPT_Hybrid":
 else:
     transform = midas_transforms.small_transform
 
+def distance(output):
+    (width, height) = output.shape
+    left_width, right_width = ((width / 2) - (width * .075)), ((width / 2) + (width * .075))
+    bottom_height, top_height = ((height / 2) - (height * .05)), ((height / 2) + (height * .05))
+
+    left_width, right_width = int(left_width), int(right_width)
+    top_height, bottom_height = int(top_height), int(bottom_height)
+
+    # print(left_width, right_width)
+    new_output = output[left_width:right_width, bottom_height:top_height]
+    return np.median(new_output)
+
+def distanceToFrequency(dist):
+    if dist < 200:
+        dist = 200
+    elif dist > 800:
+        dist = 800
+
+    ans = round(((5 / 3) * dist + (200 / 3))/25)*25
+
+    if ans > 1400:
+        ans = 1400
+    elif ans < 200:
+        ans = 200
+
+    return "./assets/" + repr(ans) + ".mp3"
+
+def generateHeatmap(output):
+    print
+
 @app.route('/hello')
 def hello():
     return "hello world!"
@@ -43,13 +73,14 @@ def bob():
 @app.route('/upload', methods=['POST'])
 def upload():
     if(request.method == "POST"):
-        print(request.get_data())
+        # print(request.get_data())
         data = request.json["testNumber"]
-        print(data)
+        # print(data)
         ans = int(data) + 1
-        print(ans)
-        img_data = request.json["photo"].split(',')[1]
-        decoded_img_data = base64.b64decode()
+
+        # print(ans)
+        img_data = request.json["photo"]
+        decoded_img_data = base64.b64decode(img_data)
         prev_img = Image.open(io.BytesIO(decoded_img_data))
         img = np.array(prev_img.convert('RGB'))
 
@@ -66,31 +97,17 @@ def upload():
         ).squeeze()
         
         output = prediction.cpu().numpy()
+
+
+        # plt.imshow(output, cmap='plasma')
+        # plt.show()
+
+        print(output)
         dist = distance(output)
+        print('Distance: ' + repr(dist))
         frequencyString = distanceToFrequency(dist)
-        return jsonify({'frequencyAudioString' : frequencyString})
-
-
-    # Get the request data
-
-
-    # Make a prediction using the model
-
-    # Return the prediction as a JSON response
-    def distance(output):
-        (width, height, channels) = output.shape
-        left_width, right_width = ((width / 2) - (width * .15)), ((width / 2) + (width * .15))
-        top_height, bottom_height = ((height / 2) - (height * .1)), ((height / 2) + (height * .1))
-        return np.median(output[int(left_width):int(right_width),int(bottom_height):int(top_height),0])
-
-    def distanceToFrequency(distance):
-        nearest5 = round(distance * 2) / 2
-        frequency = 400 + (nearest5 * 25)
-        return frequency + ".mp4"
-
-    def generateHeatmap(output):
-        print
-
+        print(frequencyString)
+        return jsonify({'result': ans, 'sound' : frequencyString})
 
 
 if __name__ == '__main__':
