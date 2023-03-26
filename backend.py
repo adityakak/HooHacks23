@@ -66,6 +66,7 @@ def upload():
         ).squeeze()
         
         output = prediction.cpu().numpy()
+        dist = distance(output)
 
 
         return jsonify({'result' : output.shape})
@@ -77,8 +78,17 @@ def upload():
     # Make a prediction using the model
 
     # Return the prediction as a JSON response
+    def distance(output):
+        (width, height, channels) = output.shape
+        left_width, right_width = ((width / 2) - (width * .15)), ((width / 2) + (width * .15))
+        top_height, bottom_height = ((height / 2) - (height * .1)), ((height / 2) + (height * .1))
+        return np.median(output[int(left_width):int(right_width),int(bottom_height):int(top_height),0])
 
+    def distanceToFrequency(distance):
+        print
 
+    def generateHeatmap(output):
+        print
 
 
 
