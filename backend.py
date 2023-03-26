@@ -52,13 +52,14 @@ def distanceToFrequency(dist):
 
     if ans > 1400:
         ans = 1400
-    elif ans < 200:
-        ans = 200
+    elif ans < 400:
+        ans = 400
 
-    return "./assets/" + repr(ans) + ".mp3"
+    # return (ans/400)**2
+    return repr(ans)
 
 def generateHeatmap(output):
-    print
+    return -1
 
 @app.route('/hello')
 def hello():
@@ -102,12 +103,12 @@ def upload():
         # plt.imshow(output, cmap='plasma')
         # plt.show()
 
-        print(output)
+        # print(output)
         dist = distance(output)
         print('Distance: ' + repr(dist))
         frequencyString = distanceToFrequency(dist)
         print(frequencyString)
-        return jsonify({'result': ans, 'sound' : frequencyString})
+        return jsonify({'result': ans, 'frequency': frequencyString})
 
 
 if __name__ == '__main__':
