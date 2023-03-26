@@ -34,9 +34,9 @@ export default function App() {
     setPreviewVisible(true)
     //setStartCamera(false)
     setCapturedImage(photo)
-    console.log("Photo details: ", photo.base64)
+    // console.log("Photo details: ", photo.base64)
 
-    fetch('http://172.23.22.156:5000/upload', {
+    fetch('http://172.23.22.156:5555/bob', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
 })
 
 const CameraPreview = ({ photo, retakePicture, savePhoto }: any) => {
-  console.log('sdsfds', photo)
+  // console.log('sdsfds', photo)
   return (
     <View
       style={{
