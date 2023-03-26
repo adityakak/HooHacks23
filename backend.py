@@ -22,10 +22,6 @@ device = torch.device("cpu")
 midas.to(device)
 midas.eval()
 
-cuda_id = torch.cuda.current_device()
-print(torch.cuda.current_device())
-
-print(torch.cuda.get_device_name(cuda_id))
 
 midas_transforms = torch.hub.load("intel-isl/MiDaS", "transforms")
 
@@ -57,8 +53,22 @@ def upload():
         prev_img = Image.open(io.BytesIO(decoded_img_data))
         img = np.array(prev_img.convert('RGB'))
 
+        input_batch = transform(img).to(device)
 
-        return jsonify({'result' : ans})
+        with torch.no_grad():
+            prediction = midas(input_batch)
+
+            prediction = torch.nn.functional.interpolate(
+                prediction.unsqueeze(1),
+                size=img.shape[:2],
+                mode="bicubic",
+                align_corners=False,
+        ).squeeze()
+        
+        output = prediction.cpu().numpy()
+
+
+        return jsonify({'result' : output.shape})
 
 
     # Get the request data
@@ -69,25 +79,6 @@ def upload():
     # Return the prediction as a JSON response
 
 
-    input_batch = transform(img).to(device)
-
-    start = time.perf_counter()
-
-    with torch.no_grad():
-        prediction = midas(input_batch)
-
-        prediction = torch.nn.functional.interpolate(
-            prediction.unsqueeze(1),
-            size=img.shape[:2],
-            mode="bicubic",
-            align_corners=False,
-        ).squeeze()
-
-    print(time.perf_counter() - start)
-
-    output = prediction.cpu().numpy()
-
-    print(output.shape)
 
 
 
