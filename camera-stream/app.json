@@ -16,13 +16,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-<<<<<<< Updated upstream
       "pushNotification": {
         "permissions": []
-      }
-=======
+      },
       "bundleIdentifier": "com.akashpama.camera-stream"
->>>>>>> Stashed changes
     },
     "android": {
       "adaptiveIcon": {
