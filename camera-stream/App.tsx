@@ -15,7 +15,7 @@ export default function App() {
 
 
   const __startCamera = async () => {
-    const { status } = await Camera.requestPermissionsAsync()
+    const { status } = await Camera.requestCameraPermissionsAsync()
     console.log(status)
     if (status === 'granted') {
       setStartCamera(true)
@@ -27,10 +27,23 @@ export default function App() {
     const photo: any = await camera.takePictureAsync()
     scannedPhoto = photo
     console.log(photo)
-    console.log("typeof photo:", typeof(photo))
+    console.log("typeof photo:", typeof (photo))
     setPreviewVisible(true)
     //setStartCamera(false)
     setCapturedImage(photo)
+
+    fetch('http://172.25.185.145:5000/upload', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstParam: 'yourValue',
+        secondParam: 'yourOtherValue',
+        photo: photo,
+      }),
+    });
   }
   const __savePhoto = () => { }
   const __retakePicture = () => {
@@ -39,7 +52,7 @@ export default function App() {
     __startCamera()
   }
 
-  
+
   // return <View><Text>Hello there</Text></View>
   return (
     <View style={styles.container}>
