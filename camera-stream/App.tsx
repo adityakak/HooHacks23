@@ -123,6 +123,7 @@ export default function App() {
                       alignItems: 'center'
                     }}
                   >
+                    <Text style={{fontSize: 30, backgroundColor: '#fff'}}>{photoNumber}</Text>
                     <TouchableOpacity
                       onPress={__takePicture}
                       style={{
