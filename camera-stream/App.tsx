@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar'
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, ImageBackground, Image } from 'react-native'
 import { Camera } from 'expo-camera'
+import { Audio } from 'expo-av';
+
 let camera: Camera
 // var photoNumber: any
 // const imageFilepath: string = "scannedPhoto"
@@ -15,7 +17,10 @@ export default function App() {
   const [photoNumber, setPhotoNumber] = React.useState(0)
   const [depth, setDepth] = React.useState(0)
   const [waitingResponse, setWaitingResponse] = React.useState(false)
+  const [audio, setAudio] = useState<Audio.Sound>();
+  const [frequency, setFrequency] = React.useState(String);
 
+  const soundObject = new Audio.Sound();
 
   const __startCamera = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync()
@@ -26,6 +31,101 @@ export default function App() {
       Alert.alert('Access denied')
     }
   }
+
+  async function playSound() { 
+      
+    await soundObject.unloadAsync();
+
+    if (frequency === "400") {
+      await soundObject.loadAsync(require('./assets/400.mp3'));
+    } else if (frequency === "425") {
+      await soundObject.loadAsync(require('./assets/425.mp3'));
+    } else if (frequency === "450") {
+      await soundObject.loadAsync(require('./assets/450.mp3'));
+    } else if (frequency === "475") {
+      await soundObject.loadAsync(require('./assets/475.mp3'));
+    } else if (frequency === "500") {
+      await soundObject.loadAsync(require('./assets/500.mp3'));
+    } else if (frequency === "525") {
+      await soundObject.loadAsync(require('./assets/525.mp3'));
+    } else if (frequency === "550") {
+      await soundObject.loadAsync(require('./assets/550.mp3'));
+    } else if (frequency === "575") {
+      await soundObject.loadAsync(require('./assets/575.mp3'));
+    } else if (frequency === "600") {
+      await soundObject.loadAsync(require('./assets/600.mp3'));
+    } else if (frequency === "625") {
+      await soundObject.loadAsync(require('./assets/625.mp3'));
+    } else if (frequency === "650") {
+      await soundObject.loadAsync(require('./assets/650.mp3'));
+    } else if (frequency === "675") {
+      await soundObject.loadAsync(require('./assets/675.mp3'));
+    } else if (frequency === "700") {
+      await soundObject.loadAsync(require('./assets/700.mp3'));
+    } else if (frequency === "725") {
+      await soundObject.loadAsync(require('./assets/725.mp3'));
+    } else if (frequency === "750") {
+      await soundObject.loadAsync(require('./assets/750.mp3'));
+    } else if (frequency === "775") {
+      await soundObject.loadAsync(require('./assets/775.mp3'));
+    } else if (frequency === "800") {
+      await soundObject.loadAsync(require('./assets/800.mp3'));
+    } else if (frequency === "825") {
+      await soundObject.loadAsync(require('./assets/825.mp3'));
+    } else if (frequency === "850") {
+      await soundObject.loadAsync(require('./assets/850.mp3'));
+    } else if (frequency === "875") {
+      await soundObject.loadAsync(require('./assets/875.mp3'));
+    } else if (frequency === "900") {
+      await soundObject.loadAsync(require('./assets/900.mp3'));
+    } else if (frequency === "925") {
+      await soundObject.loadAsync(require('./assets/925.mp3'));
+    } else if (frequency === "950") {
+      await soundObject.loadAsync(require('./assets/950.mp3'));
+    } else if (frequency === "975") {
+      await soundObject.loadAsync(require('./assets/975.mp3'));
+    } else if (frequency === "1000") {
+      await soundObject.loadAsync(require('./assets/1000.mp3'));
+    } else if (frequency === "1025") {
+      await soundObject.loadAsync(require('./assets/1025.mp3'));
+    } else if (frequency === "1050") {
+      await soundObject.loadAsync(require('./assets/1050.mp3'));
+    } else if (frequency === "1075") {
+      await soundObject.loadAsync(require('./assets/1075.mp3'));
+    } else if (frequency === "1100") {
+      await soundObject.loadAsync(require('./assets/1100.mp3'));
+    } else if (frequency === "1125") {
+      await soundObject.loadAsync(require('./assets/1125.mp3'));
+    } else if (frequency === "1150") {
+      await soundObject.loadAsync(require('./assets/1150.mp3'));
+    } else if (frequency === "1175") {
+      await soundObject.loadAsync(require('./assets/1175.mp3'));
+    } else if (frequency === "1200") {
+      await soundObject.loadAsync(require('./assets/1200.mp3'));
+    } else if (frequency === "1225") {
+      await soundObject.loadAsync(require('./assets/1225.mp3'));
+    } else if (frequency === "1250") {
+      await soundObject.loadAsync(require('./assets/1250.mp3'));
+    } else if (frequency === "1275") {
+      await soundObject.loadAsync(require('./assets/1275.mp3'));
+    } else if (frequency === "1300") {
+      await soundObject.loadAsync(require('./assets/1300.mp3'));
+    } else if (frequency === "1325") {
+      await soundObject.loadAsync(require('./assets/1325.mp3'));
+    } else if (frequency === "1350") {
+      await soundObject.loadAsync(require('./assets/1350.mp3'));
+    } else if (frequency === "1375") {
+      await soundObject.loadAsync(require('./assets/1375.mp3'));
+    } else if (frequency === "1400") {
+      await soundObject.loadAsync(require('./assets/1400.mp3'));
+    }
+
+
+    await soundObject.playAsync();
+      
+
+  }
+  
   const __takePictureAndSend = async () => {
     const options = { quality: 1, base64: true, skipProcessing: true };
     const photo: any = await camera.takePictureAsync(options);
@@ -57,6 +157,7 @@ export default function App() {
         console.log("The response was: ", data)
         console.log("Result: ", data['result'])
         setDepth(data['result'])
+        setFrequency(data['frequency'])
         setWaitingResponse(false)
       }).catch(error => {
         // handle the error
@@ -74,12 +175,16 @@ export default function App() {
 
   useEffect(() => {
     if (waitingResponse === false) {
+      
       console.log("use effect sending response")
       setWaitingResponse(true)
       __takePictureAndSend() // sets waitingResponse to false when it's done
+      playSound();
     } else {
       console.log("use effect waiting response")
     }
+
+    
 
   })
 
@@ -150,6 +255,9 @@ export default function App() {
                       backgroundColor: '#fff'
                     }}
                   />
+
+                  
+                  
                 </View>
               </View>
             </View>
@@ -253,6 +361,8 @@ const CameraPreview = ({ photo, retakePicture, savePhoto }: any) => {
               >
                 Re-take
               </Text>
+
+        
             </TouchableOpacity>
           </View>
         </View>
