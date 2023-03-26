@@ -66,17 +66,6 @@ export default function App() {
   }
 
 
-  const __getImageFromURI = ({ photo }: any) => {
-    if (photo) {
-      return <Image style={{ width: photo.width, height: photo.height }}
-        source={{ uri: photo.uri }} />
-    } else {
-      console.log("ERROR ERROR ERROR CAMERA IS BEING GOOFY")
-      return null;
-    }
-  }
-
-
   // return <View><Text>Hello there</Text></View>
   return (
     <View style={styles.container}>
