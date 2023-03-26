@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, ImageBackground, Image } from 'react-native'
 import { Camera } from 'expo-camera'
 let camera: Camera
@@ -14,6 +14,7 @@ export default function App() {
   const [flashMode, setFlashMode] = React.useState('off')
   const [photoNumber, setPhotoNumber] = React.useState(0)
   const [depth, setDepth] = React.useState(0)
+  const [waitingResponse, setWaitingResponse] = React.useState(false)
 
 
   const __startCamera = async () => {
@@ -25,7 +26,7 @@ export default function App() {
       Alert.alert('Access denied')
     }
   }
-  const __takePicture = async () => {
+  const __takePictureAndSend = async () => {
     const options = { quality: 1, base64: true, skipProcessing: true };
     const photo: any = await camera.takePictureAsync(options);
     setPhotoNumber(photoNumber + 1)
@@ -37,8 +38,9 @@ export default function App() {
     //setStartCamera(false)
     setCapturedImage(photo)
     // console.log("Photo details: ", photo.base64)
+    setWaitingResponse(true)
 
-    fetch('http://172.25.185.145:5000/upload', {
+    await fetch('http://172.25.185.145:5000/upload', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -55,10 +57,12 @@ export default function App() {
         console.log("The response was: ", data)
         console.log("Result: ", data['result'])
         setDepth(data['result'])
+        setWaitingResponse(false)
       }).catch(error => {
         // handle the error
         console.log("We are getting an error")
         console.error('Error:', error);
+        setWaitingResponse(false)
       });
   }
   const __savePhoto = () => { }
@@ -68,6 +72,16 @@ export default function App() {
     __startCamera()
   }
 
+  useEffect(() => {
+    if (waitingResponse === false) {
+      console.log("use effect sending response")
+      setWaitingResponse(true)
+      __takePictureAndSend() // sets waitingResponse to false when it's done
+    } else {
+      console.log("use effect waiting response")
+    }
+
+  })
 
   // return <View><Text>Hello there</Text></View>
   return (
@@ -126,7 +140,8 @@ export default function App() {
                   <Text style={{ fontSize: 30, backgroundColor: '#fff' }}>Receiving number: {depth}</Text>
                   <Text style={{ fontSize: 30, backgroundColor: '#fff' }}>Sending number: {photoNumber}</Text>
                   <TouchableOpacity
-                    onPress={__takePicture}
+                    // onPress={() => console.log("Button pressed here")}
+                    onPress={__takePictureAndSend}
                     style={{
                       width: 70,
                       height: 70,
