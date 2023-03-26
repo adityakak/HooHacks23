@@ -3,7 +3,7 @@ import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, ImageBackground, Image } from 'react-native'
 import { Camera } from 'expo-camera'
 let camera: Camera
-var photoNumber: any
+// var photoNumber: any
 // const imageFilepath: string = "scannedPhoto"
 
 export default function App() {
@@ -12,6 +12,7 @@ export default function App() {
   const [capturedImage, setCapturedImage] = React.useState<any>(null)
   const [cameraType, setCameraType] = React.useState(Camera.Constants.Type.back)
   const [flashMode, setFlashMode] = React.useState('off')
+  const [photoNumber, setPhotoNumber] = React.useState(0)
 
 
   const __startCamera = async () => {
@@ -19,7 +20,6 @@ export default function App() {
     console.log(status)
     if (status === 'granted') {
       setStartCamera(true)
-      photoNumber = 0
     } else {
       Alert.alert('Access denied')
     }
@@ -27,7 +27,7 @@ export default function App() {
   const __takePicture = async () => {
     const options = { quality: 1, base64: true, skipProcessing: true };
     const photo: any = await camera.takePictureAsync(options);
-    photoNumber++;
+    setPhotoNumber(photoNumber + 1)
     console.log("Incrementing photo number: ", photoNumber);
     // scannedPhoto = photo
     // console.log("Photo: ", photo)
@@ -123,7 +123,7 @@ export default function App() {
                       alignItems: 'center'
                     }}
                   >
-                    <Text style={{ fontSize: 20, backgroundColor: '#fff' }}>{photoNumber}</Text>
+                    {/* <Text style={{ fontSize: 20, backgroundColor: '#fff' }}>{photoNumber}</Text> */}
                     <TouchableOpacity
                       onPress={__takePicture}
                       style={{
@@ -213,9 +213,9 @@ const CameraPreview = ({ photo, retakePicture, savePhoto }: any) => {
             justifyContent: 'flex-end'
           }}
         >
-          <View style={{ backgroundColor: '#fff', alignContent: 'center' }}>
+          {/* <View style={{ backgroundColor: '#fff', alignContent: 'center' }}>
             <Text style={{fontSize: 30}}>{photoNumber}</Text>
-          </View>
+          </View> */}
           <View
             style={{
               flexDirection: 'row',
