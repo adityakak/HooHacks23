@@ -34,7 +34,10 @@ export default function App() {
 
   async function playSound() { 
       
-    await soundObject.unloadAsync();
+    if(soundObject._loaded){
+      await soundObject.unloadAsync();
+    }
+   
 
     if (frequency === "400") {
       await soundObject.loadAsync(require('./assets/400.mp3'));
@@ -121,7 +124,9 @@ export default function App() {
     }
 
 
-    await soundObject.playAsync();
+    if(soundObject._loaded){
+      await soundObject.playAsync();
+    }
       
 
   }
@@ -140,7 +145,7 @@ export default function App() {
     // console.log("Photo details: ", photo.base64)
     setWaitingResponse(true)
 
-    await fetch('http://172.25.185.145:5000/upload', {
+    await fetch('http://172.25.157.53:5000/upload', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
