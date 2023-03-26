@@ -67,9 +67,8 @@ def upload():
         
         output = prediction.cpu().numpy()
         dist = distance(output)
-
-
-        return jsonify({'result' : output.shape})
+        frequencyString = distanceToFrequency(dist)
+        return jsonify({'frequencyAudioString' : frequencyString})
 
 
     # Get the request data
@@ -85,7 +84,9 @@ def upload():
         return np.median(output[int(left_width):int(right_width),int(bottom_height):int(top_height),0])
 
     def distanceToFrequency(distance):
-        print
+        nearest5 = round(distance * 2) / 2
+        frequency = 400 + (nearest5 * 25)
+        return frequency + ".mp4"
 
     def generateHeatmap(output):
         print
