@@ -138,13 +138,13 @@ export default function App() {
           <TouchableOpacity
             onPress={__startCamera}
             style={{
-              width: 130,
+              width:350,
               borderRadius: 4,
               backgroundColor: '#14274e',
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
-              height: 40
+              height: 400
             }}
           >
             <Text
@@ -222,25 +222,6 @@ const CameraPreview = ({ photo, retakePicture, savePhoto }: any) => {
                 }}
               >
                 Re-take
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={savePhoto}
-              style={{
-                width: 130,
-                height: 40,
-
-                alignItems: 'center',
-                borderRadius: 4
-              }}
-            >
-              <Text
-                style={{
-                  color: '#fff',
-                  fontSize: 20
-                }}
-              >
-                save photo
               </Text>
             </TouchableOpacity>
           </View>
