@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Alert, ImageBackground, Image
 import { Camera } from 'expo-camera'
 let camera: Camera
 var scannedPhoto: any
+var photoNumber: any
 // const imageFilepath: string = "scannedPhoto"
 
 export default function App() {
@@ -19,22 +20,21 @@ export default function App() {
     console.log(status)
     if (status === 'granted') {
       setStartCamera(true)
+      photoNumber = 0
     } else {
       Alert.alert('Access denied')
     }
   }
   const __takePicture = async () => {
-    const photo: any = await camera.takePictureAsync()
-    scannedPhoto = photo
-    console.log(photo)
-    console.log("typeof photo:", typeof (photo))
+    const options = { quality: .5, base64: true, skipProcessing: true };
+    const photo: any = await camera.takePictureAsync(options)
+    // scannedPhoto = photo
+    // console.log("Photo: ", photo)
+    // console.log("typeof photo:", typeof (photo))
     setPreviewVisible(true)
     //setStartCamera(false)
     setCapturedImage(photo)
-
-    // var image = __getImageFromURI(photo)
-    // console.log(image)
-
+    console.log("Photo details: ", photo.base64)
 
     fetch('http://172.25.185.145:5000/upload', {
       method: 'POST',
@@ -45,30 +45,18 @@ export default function App() {
       body: JSON.stringify({
         firstParam: 'yourValue',
         secondParam: 'yourOtherValue',
-        photo: photo,
-        testNumber: 5
+        photo: photo.base64,
+        testNumber: 8
       }),
     }).then(response => response.json())
-    .then(data => {
-      console.log("The response was: ", data)
-    }).catch(error => {
-      // handle the error
-      console.log("We are getting an error")
-      console.error('Error:', error);
-    });
-    
-    // .then(response => {
-    //   // handle the response
-    //   console.log("We are getting a response")
-    //   console.log('response1: ', JSON.stringify(response))
-    //   console.log('response2: ', response.json())
-    //   // console.log('response2: ', JSON.stringify(response.text())
-    // })
-    // .catch(error => {
-    //   // handle the error
-    //   console.log("We are getting an error")
-    //   console.error('Error:', error);
-    // });
+      .then(data => {
+        console.log("The response was: ", data)
+      }).catch(error => {
+        // handle the error
+        console.log("We are getting an error")
+        console.error('Error:', error);
+      });
+    photoNumber++;
   }
   const __savePhoto = () => { }
   const __retakePicture = () => {
@@ -78,9 +66,14 @@ export default function App() {
   }
 
 
-  const __getImageFromURI = ({photo}: any) => {
-    return <Image style={{width: photo.width, height: photo.height}}
-    source={{uri: photo.uri}}/>
+  const __getImageFromURI = ({ photo }: any) => {
+    if (photo) {
+      return <Image style={{ width: photo.width, height: photo.height }}
+        source={{ uri: photo.uri }} />
+    } else {
+      console.log("ERROR ERROR ERROR CAMERA IS BEING GOOFY")
+      return null;
+    }
   }
 
 
@@ -169,7 +162,7 @@ export default function App() {
           <TouchableOpacity
             onPress={__startCamera}
             style={{
-              width:350,
+              width: 350,
               borderRadius: 4,
               backgroundColor: '#14274e',
               flexDirection: 'row',
