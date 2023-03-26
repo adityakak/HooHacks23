@@ -123,7 +123,6 @@ export default function App() {
                       alignItems: 'center'
                     }}
                   >
-                    {/* <Text style={{ fontSize: 20, backgroundColor: '#fff' }}>{photoNumber}</Text> */}
                     <TouchableOpacity
                       onPress={__takePicture}
                       style={{
@@ -213,9 +212,6 @@ const CameraPreview = ({ photo, retakePicture, savePhoto }: any) => {
             justifyContent: 'flex-end'
           }}
         >
-          {/* <View style={{ backgroundColor: '#fff', alignContent: 'center' }}>
-            <Text style={{fontSize: 30}}>{photoNumber}</Text>
-          </View> */}
           <View
             style={{
               flexDirection: 'row',
