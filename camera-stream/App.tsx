@@ -32,6 +32,10 @@ export default function App() {
     //setStartCamera(false)
     setCapturedImage(photo)
 
+    // var image = __getImageFromURI(photo)
+    // console.log(image)
+
+
     fetch('http://172.25.185.145:5000/upload', {
       method: 'POST',
       headers: {
@@ -42,14 +46,41 @@ export default function App() {
         firstParam: 'yourValue',
         secondParam: 'yourOtherValue',
         photo: photo,
+        testNumber: 5
       }),
+    }).then(response => response.json())
+    .then(data => {
+      console.log("The response was: ", data)
+    }).catch(error => {
+      // handle the error
+      console.log("We are getting an error")
+      console.error('Error:', error);
     });
+    
+    // .then(response => {
+    //   // handle the response
+    //   console.log("We are getting a response")
+    //   console.log('response1: ', JSON.stringify(response))
+    //   console.log('response2: ', response.json())
+    //   // console.log('response2: ', JSON.stringify(response.text())
+    // })
+    // .catch(error => {
+    //   // handle the error
+    //   console.log("We are getting an error")
+    //   console.error('Error:', error);
+    // });
   }
   const __savePhoto = () => { }
   const __retakePicture = () => {
     setCapturedImage(null)
     setPreviewVisible(false)
     __startCamera()
+  }
+
+
+  const __getImageFromURI = ({photo}: any) => {
+    return <Image style={{width: photo.width, height: photo.height}}
+    source={{uri: photo.uri}}/>
   }
 
 
