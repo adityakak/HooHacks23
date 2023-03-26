@@ -28,6 +28,7 @@ export default function App() {
     const options = { quality: 1, base64: true, skipProcessing: true };
     const photo: any = await camera.takePictureAsync(options);
     photoNumber++;
+    console.log("Incrementing photo number: ", photoNumber);
     // scannedPhoto = photo
     // console.log("Photo: ", photo)
     // console.log("typeof photo:", typeof (photo))
@@ -122,7 +123,7 @@ export default function App() {
                       alignItems: 'center'
                     }}
                   >
-                    <Text style={{fontSize: 20, backgroundColor: '#fff'}}>{photoNumber}</Text>
+                    <Text style={{ fontSize: 20, backgroundColor: '#fff' }}>{photoNumber}</Text>
                     <TouchableOpacity
                       onPress={__takePicture}
                       style={{
@@ -212,6 +213,9 @@ const CameraPreview = ({ photo, retakePicture, savePhoto }: any) => {
             justifyContent: 'flex-end'
           }}
         >
+          <View style={{ backgroundColor: '#fff', alignContent: 'center' }}>
+            <Text style={{fontSize: 30}}>{photoNumber}</Text>
+          </View>
           <View
             style={{
               flexDirection: 'row',
@@ -231,7 +235,7 @@ const CameraPreview = ({ photo, retakePicture, savePhoto }: any) => {
               <Text
                 style={{
                   color: '#fff',
-                  fontSize: 20
+                  fontSize: 30
                 }}
               >
                 Re-take
