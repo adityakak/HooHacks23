@@ -1,8 +1,11 @@
-import {StatusBar} from 'expo-status-bar'
+import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-import {StyleSheet, Text, View, TouchableOpacity, Alert, ImageBackground, Image} from 'react-native'
-import {Camera} from 'expo-camera'
+import { StyleSheet, Text, View, TouchableOpacity, Alert, ImageBackground, Image } from 'react-native'
+import { Camera } from 'expo-camera'
 let camera: Camera
+var scannedPhoto: any
+// const imageFilepath: string = "scannedPhoto"
+
 export default function App() {
   const [startCamera, setStartCamera] = React.useState(false)
   const [previewVisible, setPreviewVisible] = React.useState(false)
@@ -10,8 +13,9 @@ export default function App() {
   const [cameraType, setCameraType] = React.useState(Camera.Constants.Type.back)
   const [flashMode, setFlashMode] = React.useState('off')
 
+
   const __startCamera = async () => {
-    const {status} = await Camera.requestPermissionsAsync()
+    const { status } = await Camera.requestPermissionsAsync()
     console.log(status)
     if (status === 'granted') {
       setStartCamera(true)
@@ -21,17 +25,22 @@ export default function App() {
   }
   const __takePicture = async () => {
     const photo: any = await camera.takePictureAsync()
+    scannedPhoto = photo
     console.log(photo)
+    console.log("typeof photo:", typeof(photo))
     setPreviewVisible(true)
     //setStartCamera(false)
     setCapturedImage(photo)
   }
-  const __savePhoto = () => {}
+  const __savePhoto = () => { }
   const __retakePicture = () => {
     setCapturedImage(null)
     setPreviewVisible(false)
     __startCamera()
   }
+
+  
+  // return <View><Text>Hello there</Text></View>
   return (
     <View style={styles.container}>
       {startCamera ? (
@@ -47,7 +56,7 @@ export default function App() {
             <Camera
               type={cameraType}
               flashMode={flashMode}
-              style={{flex: 1}}
+              style={{ flex: 1 }}
               ref={(r) => {
                 camera = r
               }}
@@ -152,7 +161,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const CameraPreview = ({photo, retakePicture, savePhoto}: any) => {
+const CameraPreview = ({ photo, retakePicture, savePhoto }: any) => {
   console.log('sdsfds', photo)
   return (
     <View
@@ -164,7 +173,7 @@ const CameraPreview = ({photo, retakePicture, savePhoto}: any) => {
       }}
     >
       <ImageBackground
-        source={{uri: photo && photo.uri}}
+        source={{ uri: photo && photo.uri }} // REFER TO THIS TO GRAB IMAGE
         style={{
           flex: 1
         }}
