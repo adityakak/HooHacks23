@@ -1,0 +1,21 @@
+#sources
+@article{Ranftl2020,
+	author    = {Ren\'{e} Ranftl and Katrin Lasinger and David Hafner and Konrad Schindler and Vladlen Koltun},
+	title     = {Towards Robust Monocular Depth Estimation: Mixing Datasets for Zero-shot Cross-dataset Transfer},
+	journal   = {IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI)},
+	year      = {2020},
+}
+@article{Ranftl2021,
+	author    = {Ren\'{e} Ranftl and Alexey Bochkovskiy and Vladlen Koltun},
+	title     = {Vision Transformers for Dense Prediction},
+	journal   = {ArXiv preprint},
+	year      = {2021},
+}
+https://aws.amazon.com/what-is/restful-api/#:~:text=RESTful%20API%20is%20an%20interface,applications%20to%20perform%20various%20tasks.
+https://onlinetonegenerator.com
+https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
+https://kyle-buntin.medium.com/getting-started-with-camera-in-react-native-5a06302a58df
+https://docs.expo.dev
+https://stackoverflow.com/questions/73469845/expo-camera-takepictureasync-undefined-unhandled-promise-rejection-typeerror
+https://stackoverflow.com/questions/70488913/python-flask-not-returning-post-data-to-react
+https://www.freecodecamp.org/news/how-to-create-a-camera-app-with-expo-and-react-native/
