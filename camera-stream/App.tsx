@@ -13,6 +13,7 @@ export default function App() {
   const [cameraType, setCameraType] = React.useState(Camera.Constants.Type.back)
   const [flashMode, setFlashMode] = React.useState('off')
   const [photoNumber, setPhotoNumber] = React.useState(0)
+  const [depth, setDepth] = React.useState(0)
 
 
   const __startCamera = async () => {
@@ -47,11 +48,13 @@ export default function App() {
         firstParam: 'yourValue',
         secondParam: 'yourOtherValue',
         photo: photo.base64,
-        testNumber: 8
+        testNumber: photoNumber
       }),
     }).then(response => response.json())
       .then(data => {
         console.log("The response was: ", data)
+        console.log("Result: ", data['result'])
+        setDepth(data['result'])
       }).catch(error => {
         // handle the error
         console.log("We are getting an error")
@@ -76,69 +79,67 @@ export default function App() {
             width: '100%'
           }}
         >
-          {previewVisible && capturedImage ? (
-            <CameraPreview photo={capturedImage} savePhoto={__savePhoto} retakePicture={__retakePicture} />
-          ) : (
-            <Camera
-              type={cameraType}
-              flashMode={flashMode}
-              style={{ flex: 1 }}
-              ref={(r) => {
-                camera = r
+          <Camera
+            type={cameraType}
+            flashMode={flashMode}
+            style={{ flex: 1 }}
+            ref={(r) => {
+              camera = r
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                width: '100%',
+                backgroundColor: 'transparent',
+                flexDirection: 'row'
               }}
             >
               <View
                 style={{
+                  position: 'absolute',
+                  left: '5%',
+                  top: '10%',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between'
+                }}
+              >
+              </View>
+              <View
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  flexDirection: 'row',
                   flex: 1,
                   width: '100%',
-                  backgroundColor: 'transparent',
-                  flexDirection: 'row'
+                  padding: 20,
+                  justifyContent: 'space-between'
                 }}
               >
                 <View
                   style={{
-                    position: 'absolute',
-                    left: '5%',
-                    top: '10%',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                </View>
-                <View
-                  style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    flexDirection: 'row',
+                    alignSelf: 'center',
                     flex: 1,
-                    width: '100%',
-                    padding: 20,
-                    justifyContent: 'space-between'
+                    alignItems: 'center'
                   }}
                 >
-                  <View
+                  <Text style={{ fontSize: 30, backgroundColor: '#fff' }}>Receiving number: {depth}</Text>
+                  <Text style={{ fontSize: 30, backgroundColor: '#fff' }}>Sending number: {photoNumber}</Text>
+                  <TouchableOpacity
+                    onPress={__takePicture}
                     style={{
-                      alignSelf: 'center',
-                      flex: 1,
-                      alignItems: 'center'
+                      width: 70,
+                      height: 70,
+                      bottom: 0,
+                      borderRadius: 50,
+                      backgroundColor: '#fff'
                     }}
-                  >
-                    <Text style={{fontSize: 30, backgroundColor: '#fff'}}>{photoNumber}</Text>
-                    <TouchableOpacity
-                      onPress={__takePicture}
-                      style={{
-                        width: 70,
-                        height: 70,
-                        bottom: 0,
-                        borderRadius: 50,
-                        backgroundColor: '#fff'
-                      }}
-                    />
-                  </View>
+                  />
                 </View>
               </View>
-            </Camera>
-          )}
+            </View>
+          </Camera>
+
         </View>
       ) : (
         <View
