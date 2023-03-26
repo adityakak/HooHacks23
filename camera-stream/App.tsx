@@ -3,7 +3,6 @@ import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, ImageBackground, Image } from 'react-native'
 import { Camera } from 'expo-camera'
 let camera: Camera
-var scannedPhoto: any
 var photoNumber: any
 // const imageFilepath: string = "scannedPhoto"
 
@@ -26,8 +25,9 @@ export default function App() {
     }
   }
   const __takePicture = async () => {
-    const options = { quality: .5, base64: true, skipProcessing: true };
-    const photo: any = await camera.takePictureAsync(options)
+    const options = { quality: 1, base64: true, skipProcessing: true };
+    const photo: any = await camera.takePictureAsync(options);
+    photoNumber++;
     // scannedPhoto = photo
     // console.log("Photo: ", photo)
     // console.log("typeof photo:", typeof (photo))
@@ -36,7 +36,7 @@ export default function App() {
     setCapturedImage(photo)
     // console.log("Photo details: ", photo.base64)
 
-    fetch('http://172.23.22.156:5555/bob', {
+    fetch('http://172.25.185.145:5000/upload', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -56,7 +56,6 @@ export default function App() {
         console.log("We are getting an error")
         console.error('Error:', error);
       });
-    photoNumber++;
   }
   const __savePhoto = () => { }
   const __retakePicture = () => {
@@ -123,6 +122,7 @@ export default function App() {
                       alignItems: 'center'
                     }}
                   >
+                    <Text style={{fontSize: 20, backgroundColor: '#fff'}}>{photoNumber}</Text>
                     <TouchableOpacity
                       onPress={__takePicture}
                       style={{
