@@ -16,15 +16,20 @@
     ],
     "ios": {
       "supportsTablet": true,
+<<<<<<< Updated upstream
       "pushNotification": {
         "permissions": []
       }
+=======
+      "bundleIdentifier": "com.akashpama.camera-stream"
+>>>>>>> Stashed changes
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.expocameraapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
