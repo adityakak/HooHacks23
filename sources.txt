@@ -19,3 +19,4 @@ https://docs.expo.dev
 https://stackoverflow.com/questions/73469845/expo-camera-takepictureasync-undefined-unhandled-promise-rejection-typeerror
 https://stackoverflow.com/questions/70488913/python-flask-not-returning-post-data-to-react
 https://www.freecodecamp.org/news/how-to-create-a-camera-app-with-expo-and-react-native/
+    
